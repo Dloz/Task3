@@ -1,11 +1,15 @@
+using System;
+
 namespace Task3 {
     public class CallEventArgs {
-        private int _number;
-        private int _targetNumber;
+        public int TargetNumber { get; set; }
+        public int Number { get; set; }
+        public Guid Id { get; set; }
 
         public CallEventArgs(int number, int targetNumber) {
-            _number = number;
-            _targetNumber = targetNumber;
+            Number = number;
+            TargetNumber = targetNumber;
         }
+
     }
 }

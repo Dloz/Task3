@@ -41,6 +41,7 @@
     <Compile Include="ATS\AutomaticTelephoneStation.cs" />
     <Compile Include="ATS\Port.cs" />
     <Compile Include="ATS\Terminal.cs" />
+    <Compile Include="BillingSystem\CallHistory.cs" />
     <Compile Include="CallState.cs" />
     <Compile Include="Contract.cs" />
     <Compile Include="Customer\Customer.cs" />
