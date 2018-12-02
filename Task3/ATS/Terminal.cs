@@ -10,8 +10,6 @@ namespace Task3 {
         public event EventHandler<AnswerEventArgs> AnswerEvent;
         public event EventHandler<RejectEventArgs> RejectEvent;
 
-        public event EventHandler ConnectEvent;
-        public event EventHandler DisconnectEvent;
         
         
         public Terminal(int number, Port port) {
@@ -43,14 +41,6 @@ namespace Task3 {
             Console.WriteLine("Terminal -> Reject");
             OnEndCallEvent(_number);
         }
-        
-        public void Connect() {
-            Console.WriteLine("Terminal -> Connect"); // TODO
-            ConnectEvent?.Invoke(this, EventArgs.Empty);
-        }
-        public void Disconnect() {
-            Console.WriteLine("Terminal -> Disconnect"); //TODO
-            DisconnectEvent?.Invoke(this, EventArgs.Empty);
-        }
+
     }
 }

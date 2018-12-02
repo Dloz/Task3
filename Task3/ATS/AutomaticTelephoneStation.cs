@@ -7,19 +7,20 @@ using Task3.BillingSystem;
 
 namespace Task3 {
     public class AutomaticTelephoneStation {
-        private readonly Dictionary<int, Tuple<Port, Contract>> _usersData;
+        private readonly Dictionary<int, Customer> _usersData;
         private readonly List<Tuple<int, int, Guid>> _connections;
         public List<CallHistory> CallHistory { get; set; }
 
         public AutomaticTelephoneStation() {
-            _usersData = new Dictionary<int, Tuple<Port, Contract>>();
+            _usersData = new Dictionary<int, Customer>();
             _connections = new List<Tuple<int, int, Guid>>();
+            CallHistory = new List<CallHistory>();
         }
 
         public Terminal GiveTerminal(Customer customer, Tariff tariff) {
-            var contract = new Contract(customer, tariff);
+            var contract = new Contract(tariff);
             var port = new Port();
-
+            
             port.PortCallEvent += Call;
             port.PortAnswerEvent += Answer;
             port.PortRejectEvent += Reject;
@@ -28,10 +29,11 @@ namespace Task3 {
             terminal.CallEvent += port.OutgoingCall;
             terminal.AnswerEvent += port.Answer;
             terminal.RejectEvent += port.Reject;
-            terminal.ConnectEvent += port.Connect;
-            terminal.DisconnectEvent += port.Disconnect;
             
-            _usersData.Add(contract.TelephoneNumber, new Tuple<Port, Contract>(port,contract));
+            customer.ConnectEvent += port.Connect; 
+            customer.DisconnectEvent += port.Disconnect;
+            
+            _usersData.Add(contract.TelephoneNumber, new Customer(port,contract));
 
             return terminal;
         }
@@ -42,8 +44,8 @@ namespace Task3 {
                     var senderNumber = e.Number;
                     var targetNumber = e.TargetNumber;
 
-                    var senderPort = _usersData[senderNumber].Item1;
-                    var targetPort = _usersData[targetNumber].Item1;
+                    var senderPort = _usersData[senderNumber].Port;
+                    var targetPort = _usersData[targetNumber].Port;
 
 
                     Console.WriteLine("Station -> CallEvent");
@@ -66,7 +68,7 @@ namespace Task3 {
             if (currentConnection == null) return;
             Console.WriteLine("Station -> AnswerEvent");
 
-            var targetPort = _usersData[e.TargetTelephoneNumber].Item1;
+            var targetPort = _usersData[e.TargetTelephoneNumber].Port;
             targetPort.State = PortState.Busy;
 
             CallHistory.Add(new CallHistory(
@@ -85,8 +87,8 @@ namespace Task3 {
             var senderNumber = currentConnection.Item1;
             var targetNumber = currentConnection.Item2;
 
-            var senderPort = _usersData[senderNumber].Item1;
-            var targetPort = _usersData[targetNumber].Item1;
+            var senderPort = _usersData[senderNumber].Port;
+            var targetPort = _usersData[targetNumber].Port;
 
             if (senderNumber == e.Number) {
                 targetPort.Reset();
