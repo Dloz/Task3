@@ -39,19 +39,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ATS\AutomaticTelephoneStation.cs" />
+    <Compile Include="ATS\IStation.cs" />
     <Compile Include="ATS\Port.cs" />
     <Compile Include="ATS\Terminal.cs" />
+    <Compile Include="BillingSystem\BillingSystem.cs" />
     <Compile Include="BillingSystem\CallHistory.cs" />
+    <Compile Include="BillingSystem\Contract.cs" />
     <Compile Include="BillingSystem\Report.cs" />
     <Compile Include="BillingSystem\Tariff.cs" />
-    <Compile Include="CallState.cs" />
-    <Compile Include="Contract.cs" />
     <Compile Include="Customer\Customer.cs" />
     <Compile Include="Customer\ICustomer.cs" />
+    <Compile Include="Enums\CallState.cs" />
+    <Compile Include="Enums\PortState.cs" />
     <Compile Include="EventArgs\AnswerEventArgs.cs" />
     <Compile Include="EventArgs\CallEventArgs.cs" />
     <Compile Include="EventArgs\RejectEventArgs.cs" />
-    <Compile Include="PortState.cs" />
+    <Compile Include="Exceptions\BusyException.cs" />
+    <Compile Include="Exceptions\CallException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

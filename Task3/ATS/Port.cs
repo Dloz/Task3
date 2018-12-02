@@ -1,6 +1,8 @@
 using System;
+using Task3.EventArgs;
+using Task3.Exceptions;
 
-namespace Task3 {
+namespace Task3.ATS {
     public sealed class Port {
         public PortState State;
         
@@ -12,7 +14,9 @@ namespace Task3 {
         public event EventHandler<CallEventArgs> IncomingCallEvent;
 
         public void OutgoingCall(object sender, CallEventArgs e) {
-            if (State != PortState.Connected) return;
+            if (State != PortState.Connected) {
+                return;
+            }
             State = PortState.Busy;
 
             CurrentCallId = Guid.NewGuid();
@@ -23,7 +27,9 @@ namespace Task3 {
         }
         
         public void IncomingCall(int telephoneNumber, int targetTelephoneNumber, Guid id) {
-            if (State != PortState.Connected) return;
+            if (State != PortState.Connected) {
+                return;
+            }
             State = PortState.Busy;
 
             CurrentCallId = id;
@@ -33,14 +39,18 @@ namespace Task3 {
         }
         
         public void Answer(object sender, AnswerEventArgs e){
-            if (State != PortState.Busy) return;
+            if (State != PortState.Busy) {
+                return;
+            }
             e.Id = CurrentCallId;
             Console.WriteLine("Port -> CallStarted: id {0}", CurrentCallId);
             PortAnswerEvent?.Invoke(sender, e);
         }
 
         public void Reject(object sender, RejectEventArgs e){
-            if (State != PortState.Busy) return;
+            if (State != PortState.Busy) {
+                return;
+            }
             State = PortState.Connected;
 
             e.Id = CurrentCallId;
@@ -54,11 +64,11 @@ namespace Task3 {
             CurrentCallId = Guid.Empty;
         }
         
-        public void Connect(object sender, EventArgs e) {
+        public void Connect(object sender, System.EventArgs e) {
             State = PortState.Connected;
         }
 
-        public void Disconnect(object sender, EventArgs e) {
+        public void Disconnect(object sender, System.EventArgs e) {
             State = PortState.Disconnected;
         }
     }

@@ -1,6 +1,6 @@
 using System;
 
-namespace Task3 {
+namespace Task3.EventArgs {
     public class RejectEventArgs {
         public int Number { get; private set; }
         public Guid Id { get; set; }

@@ -1,6 +1,6 @@
 using System;
 
-namespace Task3 {
+namespace Task3.EventArgs {
     public class CallEventArgs {
         public int TargetNumber { get; set; }
         public int Number { get; set; }

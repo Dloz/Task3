@@ -1,11 +1,11 @@
 using System;
+using Task3.EventArgs;
 
-namespace Task3 {
+namespace Task3.ATS {
     public class Terminal {
-        private readonly int _number;
-        private Port _port;
-        public int Number => _number;
-        
+        public int Number { get; }
+        public Port Port { get; }
+
         public event EventHandler<CallEventArgs> CallEvent;
         public event EventHandler<AnswerEventArgs> AnswerEvent;
         public event EventHandler<RejectEventArgs> RejectEvent;
@@ -13,11 +13,11 @@ namespace Task3 {
         
         
         public Terminal(int number, Port port) {
-            _number = number;
-            _port = port;
+            Number = number;
+            Port = port;
         }
         protected virtual void OnCallEvent(int targetNumber) {
-            CallEvent?.Invoke(this, new CallEventArgs(_number, targetNumber));
+            CallEvent?.Invoke(this, new CallEventArgs(Number, targetNumber));
         }
 
         protected virtual void OnAnswerEvent(int targetNumber) {
@@ -25,7 +25,7 @@ namespace Task3 {
         }
 
         protected virtual void OnEndCallEvent(int number) {
-            RejectEvent?.Invoke(this, new RejectEventArgs(_number));
+            RejectEvent?.Invoke(this, new RejectEventArgs(Number));
         }
 
         public void Call(int targetNumber) {
@@ -35,11 +35,11 @@ namespace Task3 {
         
         public void Answer() {
             Console.WriteLine("Terminal -> Answer");
-            OnAnswerEvent(_number);
+            OnAnswerEvent(Number);
         }
         public void Reject() {
             Console.WriteLine("Terminal -> Reject");
-            OnEndCallEvent(_number);
+            OnEndCallEvent(Number);
         }
 
     }

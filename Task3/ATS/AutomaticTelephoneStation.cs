@@ -1,14 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using Task3.BillingSystem;
+using Task3.EventArgs;
 
-namespace Task3 {
-    public class AutomaticTelephoneStation {
-        private readonly Dictionary<int, Customer> _usersData;
-        private readonly List<Tuple<int, int, Guid>> _connections;
+namespace Task3.ATS {
+    public class AutomaticTelephoneStation: IDisposable {
+        private Dictionary<int, Customer> _usersData;
+        private List<Tuple<int, int, Guid>> _connections;
         public List<CallHistory> CallHistory { get; set; }
 
         public AutomaticTelephoneStation() {
@@ -29,9 +28,6 @@ namespace Task3 {
             terminal.CallEvent += port.OutgoingCall;
             terminal.AnswerEvent += port.Answer;
             terminal.RejectEvent += port.Reject;
-            
-            customer.ConnectEvent += port.Connect; 
-            customer.DisconnectEvent += port.Disconnect;
             
             _usersData.Add(contract.TelephoneNumber, new Customer(port,contract));
 
@@ -106,6 +102,12 @@ namespace Task3 {
             }
 
             _connections.Remove(currentConnection);
+        }
+
+        public void Dispose() {
+            _usersData = new Dictionary<int, Customer>();
+            _connections = new List<Tuple<int, int, Guid>>();
+            CallHistory = new List<CallHistory>();
         }
     }
 }
