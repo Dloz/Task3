@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Task3.BillingSystem;
+using Task3.Enums;
 using Task3.EventArgs;
 
 namespace Task3.ATS {
     public class AutomaticTelephoneStation: IDisposable {
         private Dictionary<int, Customer> _usersData;
         private List<Tuple<int, int, Guid>> _connections;
-        public List<CallHistory> CallHistory { get; set; }
+        public List<CallHistory> CallHistory { get; private set; }
 
         public AutomaticTelephoneStation() {
             _usersData = new Dictionary<int, Customer>();
@@ -105,9 +106,9 @@ namespace Task3.ATS {
         }
 
         public void Dispose() {
-            _usersData = new Dictionary<int, Customer>();
-            _connections = new List<Tuple<int, int, Guid>>();
-            CallHistory = new List<CallHistory>();
+            _usersData = null;
+            _connections = null;
+            CallHistory = null;
         }
     }
 }

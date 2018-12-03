@@ -54,8 +54,6 @@
     <Compile Include="EventArgs\AnswerEventArgs.cs" />
     <Compile Include="EventArgs\CallEventArgs.cs" />
     <Compile Include="EventArgs\RejectEventArgs.cs" />
-    <Compile Include="Exceptions\BusyException.cs" />
-    <Compile Include="Exceptions\CallException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

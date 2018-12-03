@@ -1,12 +1,12 @@
 using System;
+using Task3.Enums;
 using Task3.EventArgs;
-using Task3.Exceptions;
 
 namespace Task3.ATS {
     public sealed class Port {
         public PortState State;
-        
-        public Guid CurrentCallId { get; private set; }
+
+        private Guid CurrentCallId { get; set; }
 
         public event EventHandler<CallEventArgs> PortCallEvent;
         public event EventHandler<AnswerEventArgs> PortAnswerEvent;
