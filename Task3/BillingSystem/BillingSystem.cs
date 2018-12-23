@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Task3.BillingSystem {
+namespace ATS.BillingSystem {
     public class BillingSystem {
         
         public IEnumerable<Report> GetReport(IEnumerable<CallHistory> callHistory, Contract contract) {
@@ -14,6 +14,17 @@ namespace Task3.BillingSystem {
                     senderTelephoneNumber: x.SenderTelephoneNumber,
                     targetTelephoneNumber: x.TargetTelephoneNumber, 
                     cost: x.CallDuration.TotalMinutes * contract.Tariff.CostPerMinute
+                ));
+        }
+
+        public IEnumerable<Report> GetReport(IEnumerable<CallHistory> callHistory) {
+            return callHistory
+                .Select(x => new Report(
+                    callDuration: x.CallDuration,
+                    dateCall: x.StartCall,
+                    senderTelephoneNumber: x.SenderTelephoneNumber,
+                    targetTelephoneNumber: x.TargetTelephoneNumber,
+                    cost: x.CallDuration.TotalMinutes * 10d
                 ));
         }
     }

@@ -1,6 +1,8 @@
 using System;
+using System.Runtime.Serialization;
 
-namespace Task3.EventArgs {
+namespace ATS.EventArgs {
+    [DataContract]
     public class CallEventArgs {
         public int TargetNumber { get; }
         public int Number { get; }
@@ -9,6 +11,7 @@ namespace Task3.EventArgs {
         public CallEventArgs(int number, int targetNumber) {
             Number = number;
             TargetNumber = targetNumber;
+            Id = Guid.NewGuid();
         }
 
     }

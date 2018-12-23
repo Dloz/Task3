@@ -1,4 +1,4 @@
-namespace Task3.BillingSystem {
+namespace ATS.BillingSystem {
     public class Tariff {
         public double CostPerMinute { get; }
 

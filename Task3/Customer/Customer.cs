@@ -1,12 +1,19 @@
 using System;
-using Task3.ATS;
-using Task3.BillingSystem;
+using System.Runtime.Serialization;
+using ATS.ATS;
+using ATS.BillingSystem;
 
-namespace Task3 {
+namespace ATS {
+    [DataContract]
     public sealed class Customer: ICustomer {
+        [DataMember]
         public Port Port { get; private set; }
+        [DataMember]
         public Contract Contract { get; private set; }
+        [DataMember]
         public Terminal Terminal { get; private set; }
+        [DataMember]
+        public string Name { get; private set; }
 
         public event EventHandler ConnectEvent;
         public event EventHandler DisconnectEvent;
@@ -17,6 +24,11 @@ namespace Task3 {
         public Customer(Port port, Contract contract) {
             Port = port;
             Contract = contract;
+        }
+
+        public Customer(Port port, Contract contract, Terminal terminal): this(port, contract) {
+            Terminal = terminal;
+            Name = $"A{terminal.Number}";
         }
 
         public void SignContract(AutomaticTelephoneStation ats) {
@@ -54,6 +66,11 @@ namespace Task3 {
 
         private void OnDisconnectEvent() {
             DisconnectEvent?.Invoke(this, System.EventArgs.Empty);
+        }
+
+        public override string ToString() {
+            return $"Name: {Name}\n" +
+                $"Number: {Terminal.Number}\n";
         }
     }
 }

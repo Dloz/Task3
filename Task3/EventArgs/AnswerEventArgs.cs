@@ -1,6 +1,8 @@
 using System;
+using System.Runtime.Serialization;
 
-namespace Task3.EventArgs {
+namespace ATS.EventArgs {
+    [DataContract]
     public class AnswerEventArgs {
         public int TargetTelephoneNumber { get; }
         public Guid Id { get; set; }

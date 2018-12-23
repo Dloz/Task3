@@ -1,4 +1,4 @@
-namespace Task3.Enums {
+namespace ATS.Enums {
     public enum PortState {
         Connected,
         Disconnected,

@@ -1,38 +1,45 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
-using Task3.ATS;
-using Task3.BillingSystem;
+using System.Windows.Forms;
+using ATS.ATS;
+using ATS.BillingSystem;
+using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization;
 
-namespace Task3 {
-    internal class Program {
+namespace ATS {
+    public static class Program {
+        public static AutomaticTelephoneStation Ats = new AutomaticTelephoneStation();
+        [STAThread]
         public static void Main(string[] args) {
             var billing = new BillingSystem.BillingSystem();
-            var ats = new AutomaticTelephoneStation();
-            var customer = new Customer();
-            var customer2 = new Customer();
-            
-            customer.SignContract(ats);
-            customer2.SignContract(ats);
-            
-            customer2.Disconnect();
-            customer.Terminal.Call(customer2.Terminal.Number);
-            customer.Reject();
-            customer2.Connect();
-            customer.Terminal.Call(customer2.Terminal.Number);
-            customer2.Answer();
-            Thread.Sleep(3000);
-            customer2.Reject();
+            var rand = new Random();
+            for (var i = 0; i < 100; i++) {
+                var customer = new Customer();
+                customer.SignContract(Ats);
+            }
+            //var customer1 = new Customer();
+            //var customer2 = new Customer();
+            //customer2.SignContract(ats);
+            //customer1.SignContract(ats);
 
-            var reports = billing.GetReport(ats.CallHistory, customer.Contract);
-            foreach (var report in reports) {
-                Console.WriteLine("SenderNumber: {0} TargetNumber: {1} Date: {2} Duration: {3} Cost: {4:F}",
-                    report.SenderTelephoneNumber,
-                    report.TargetTelephoneNumber,
-                    report.DateCall,
-                    report.CallDuration,
-                    report.Cost);
+            //customer2.Call(customer1.Terminal.Number);
+
+            var json = new DataContractJsonSerializer(typeof(AutomaticTelephoneStation));
+            //using (var fstr = new FileStream("ATS.json", FileMode.OpenOrCreate)) {
+            //    json.WriteObject(fstr, ats);
+            //}
+
+            using (var fstr = new FileStream("ATS.json", FileMode.OpenOrCreate)) {
+                Ats = json.ReadObject(fstr) as AutomaticTelephoneStation;
+                Ats?.SubscribeEvents();
             }
 
+            CallGenerator.Generate(Ats);
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Menu());
         }
     }
 }

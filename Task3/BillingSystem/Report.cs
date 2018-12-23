@@ -1,6 +1,6 @@
 using System;
 
-namespace Task3.BillingSystem {
+namespace ATS.BillingSystem {
     public class Report {
         public TimeSpan CallDuration { get; private set; }
         public DateTime DateCall { get; private set; }
@@ -14,6 +14,14 @@ namespace Task3.BillingSystem {
             SenderTelephoneNumber = senderTelephoneNumber;
             TargetTelephoneNumber = targetTelephoneNumber;
             Cost = cost;    
+        }
+
+        public override string ToString() {
+            return $"Call duration: {CallDuration}\n" +
+                $"Date call: {DateCall}\n" +
+                $"Sender telephone number:{SenderTelephoneNumber}\n" +
+                $"Target telephone number: {TargetTelephoneNumber}\n" +
+                $"Cost: {Cost}\n";
         }
     }
 }

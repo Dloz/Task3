@@ -1,4 +1,4 @@
-namespace Task3.ATS {
+namespace ATS.ATS {
     public interface IStation {
         void SignContract(Customer customer);
     }

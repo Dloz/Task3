@@ -1,17 +1,25 @@
 using System;
-using Task3.Enums;
-using Task3.EventArgs;
+using System.Runtime.Serialization;
+using ATS.Enums;
+using ATS.EventArgs;
 
-namespace Task3.ATS {
+namespace ATS.ATS {
+    [DataContract]
     public sealed class Port {
+        [DataMember]
         public PortState State;
-
+        [DataMember]
+        public string Name { get; private set; }
         private Guid CurrentCallId { get; set; }
 
         public event EventHandler<CallEventArgs> PortCallEvent;
         public event EventHandler<AnswerEventArgs> PortAnswerEvent;
         public event EventHandler<RejectEventArgs> PortRejectEvent;
         public event EventHandler<CallEventArgs> IncomingCallEvent;
+
+        public Port() {
+            Name = "Default port";
+        }
 
         public void OutgoingCall(object sender, CallEventArgs e) {
             if (State != PortState.Connected) {
@@ -21,7 +29,7 @@ namespace Task3.ATS {
 
             CurrentCallId = Guid.NewGuid();
             e.Id = CurrentCallId;
-            Console.WriteLine("Port -> OutgoingCall: id {0}", CurrentCallId);
+            Console.WriteLine(@"Port -> OutgoingCall: id {0}", CurrentCallId);
 
             PortCallEvent?.Invoke(sender, e);
         }
@@ -34,7 +42,7 @@ namespace Task3.ATS {
 
             CurrentCallId = id;
 
-            Console.WriteLine("Port -> IncomingCall: id {0}", CurrentCallId);
+            Console.WriteLine(@"Port -> IncomingCall: id {0}", CurrentCallId);
             IncomingCallEvent?.Invoke(this, new CallEventArgs(telephoneNumber, targetTelephoneNumber));
         }
         
@@ -43,7 +51,7 @@ namespace Task3.ATS {
                 return;
             }
             e.Id = CurrentCallId;
-            Console.WriteLine("Port -> CallStarted: id {0}", CurrentCallId);
+            Console.WriteLine(@"Port -> CallStarted: id {0}", CurrentCallId);
             PortAnswerEvent?.Invoke(sender, e);
         }
 
@@ -54,7 +62,7 @@ namespace Task3.ATS {
             State = PortState.Connected;
 
             e.Id = CurrentCallId;
-            Console.WriteLine("Port -> CallRejecting: id {0}", CurrentCallId);
+            //Console.WriteLine("Port -> CallRejecting: id {0}", CurrentCallId);
             CurrentCallId = Guid.Empty;
             PortRejectEvent?.Invoke(sender, e);
         }
@@ -70,6 +78,10 @@ namespace Task3.ATS {
 
         public void Disconnect(object sender, System.EventArgs e) {
             State = PortState.Disconnected;
+        }
+
+        public override string ToString() {
+            return Name;
         }
     }
 }

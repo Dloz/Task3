@@ -1,6 +1,6 @@
-using Task3.ATS;
+using ATS.ATS;
 
-namespace Task3 {
+namespace ATS {
     public interface ICustomer {
         void SignContract(AutomaticTelephoneStation ats);
         void Call(int targetNumber);

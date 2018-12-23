@@ -1,6 +1,8 @@
 using System;
+using System.Runtime.Serialization;
 
-namespace Task3.EventArgs {
+namespace ATS.EventArgs {
+    [DataContract]
     public class RejectEventArgs {
         public int Number { get; private set; }
         public Guid Id { get; set; }
